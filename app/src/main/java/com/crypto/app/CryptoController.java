@@ -1,7 +1,8 @@
+/*
 package com.crypto.app;
 
+import com.crypto.app.CryptoSymbolService;
 import com.crypto.web.client.BianceApiDto;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -13,17 +14,18 @@ import static com.crypto.app.Mapper.map;
 class CryptoController {
 
 
-    private final CryptoService cryptoService;
+    private final CryptoSymbolService cryptoSymbolService;
 
-    CryptoController(CryptoService cryptoService) {
-        this.cryptoService = cryptoService;
+    CryptoController(CryptoSymbolService cryptoSymbolService) {
+        this.cryptoSymbolService = cryptoSymbolService;
     }
 
     @GetMapping("/api")
     public List<BianceApiDto> getCurrency() {
         //checkThat(validateDate(date), INCORRECT_DATE_RANGE_EXCEPTION_MESSAGE);
-        final var response = cryptoService.getCurrencies();
-        cryptoService.save(map(response));
+        final var response = cryptoSymbolService.getCurrencies();
+        cryptoSymbolService.save(map(response));
         return response;
     }
 }
+*/

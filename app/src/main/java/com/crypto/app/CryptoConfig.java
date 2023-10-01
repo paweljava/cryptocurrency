@@ -1,3 +1,4 @@
+/*
 package com.crypto.app;
 
 import com.crypto.web.client.BianceClient;
@@ -11,4 +12,4 @@ class CryptoConfig {
     BianceClient bianceClient() {
         return new BianceClient();
     }
-}
+}*/

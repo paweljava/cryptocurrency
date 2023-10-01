@@ -1,3 +1,4 @@
+/*
 package com.crypto.app;
 
 import com.crypto.web.client.BianceApiDto;
@@ -14,4 +15,4 @@ class Mapper {
                                 currency.getPrice()))
                 .collect(Collectors.toList());
     }
-}
+}*/

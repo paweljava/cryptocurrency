@@ -3,21 +3,15 @@ package com.crypto.web.client;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
-import java.math.BigDecimal;
-
-
+@Getter
 public class BianceApiDto {
 
     private String symbol;
-
-    /*@JsonProperty("mins")
-    private final Integer mins;*/
     @JsonProperty("price")
     private double price;
 
-    public BianceApiDto(String symbol,/* Integer mins, */double price) {
+    public BianceApiDto(String symbol, double price) {
         this.symbol = symbol;
-       // this.mins = mins;
         this.price = price;
     }
 

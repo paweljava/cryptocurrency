@@ -1,16 +1,7 @@
-/*
-package com.crypto.app;
+package com.crypto.domain.crypto.model;
 
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-
-@Entity
-@Table(name = "rates")
 public class Rate {
 
-    @Id
     private String symbol;
     private double price;
 
@@ -19,15 +10,18 @@ public class Rate {
         this.price = price;
     }
 
-    Rate() {
+    public Rate(String symbol) {
+        this.symbol = symbol;
     }
 
-    String getSymbol() {
+    public Rate() {
+    }
+
+    public String getSymbol() {
         return symbol;
     }
 
-    double getPrice() {
+    public double getPrice() {
         return price;
     }
 }
-*/

@@ -1,3 +1,4 @@
+/*
 package com.crypto.app;
 
 import com.crypto.web.client.BianceApiDto;
@@ -7,13 +8,13 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-class CryptoService {
+class CryptoSymbolService {
 
     private final BianceClient bianceClient;
     private final RateRepository rateRepository;
     private final CryptoSymbolRepository cryptoSymbolRepository;
 
-    CryptoService(BianceClient bianceClient, RateRepository rateRepository, CryptoSymbolRepository cryptoSymbolRepository) {
+    CryptoSymbolService(BianceClient bianceClient, RateRepository rateRepository, CryptoSymbolRepository cryptoSymbolRepository) {
         this.bianceClient = bianceClient;
         this.rateRepository = rateRepository;
         this.cryptoSymbolRepository = cryptoSymbolRepository;
@@ -24,13 +25,15 @@ class CryptoService {
                 .map(crypto -> bianceClient.getCurrencyBySymbol(crypto.getSymbol()))
                 .toList();
 
-        /*List<BianceApiDto> response = new ArrayList<>();
+        */
+/*List<BianceApiDto> response = new ArrayList<>();
         List<CryptoSymbol> cryptoSymbols = cryptoSymbolRepository.findAll();
 
         for (CryptoSymbol cryptoSymbol : cryptoSymbols) {
             BianceApiDto bianceApiDto = bianceClient.getCurrencyBySymbol(cryptoSymbol.getSymbol());
             response.add(bianceApiDto);
-        }*/
+        }*//*
+
         return response;
     }
 
@@ -44,3 +47,4 @@ class CryptoService {
         }
     }
 }
+*/
