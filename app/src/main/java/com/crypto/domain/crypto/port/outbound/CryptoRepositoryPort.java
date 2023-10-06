@@ -1,12 +1,12 @@
 package com.crypto.domain.crypto.port.outbound;
 
-import com.crypto.domain.crypto.model.Rate;
+import com.crypto.domain.crypto.model.Crypto;
 
 import java.util.List;
 
 public interface CryptoRepositoryPort {
 
-    List<Rate> findAll();
+    List<Crypto> findAll();
 
-    Rate save(Rate rate);
+    Crypto save(Crypto crypto);
 }

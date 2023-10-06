@@ -1,3 +1,4 @@
+delete from rates
 delete from crypto_symbols
 
 INSERT INTO crypto_symbols(symbol) values ('BTCUSDT')

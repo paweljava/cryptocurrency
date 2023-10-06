@@ -1,22 +1,25 @@
-package com.crypto.web.client;
+package com.crypto.infrastructure.persistence.database.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import lombok.Getter;
 
 @Entity
 @Table(name = "crypto_symbols")
-public class Crypto {
+@Getter
+public
+class CryptoEntity {
 
 
     @Id
     private String symbol;
 
-    public Crypto(String symbol) {
+    public CryptoEntity(String symbol) {
         this.symbol = symbol;
     }
 
-    Crypto() {
+    public CryptoEntity() {
     }
 
     public String getSymbol() {

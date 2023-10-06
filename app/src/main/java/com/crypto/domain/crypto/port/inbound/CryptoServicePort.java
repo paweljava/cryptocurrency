@@ -1,13 +1,8 @@
 package com.crypto.domain.crypto.port.inbound;
 
-import com.crypto.domain.crypto.model.Rate;
-import com.crypto.domain.crypto.model.RateDto;
-
-import java.util.List;
+import com.crypto.domain.crypto.model.Crypto;
 
 public interface CryptoServicePort {
 
-    List<RateDto> getCrypto();
-
-    Rate addCrypto(Rate rate);
+    Crypto addCryptoSymbol(Crypto crypto);
 }

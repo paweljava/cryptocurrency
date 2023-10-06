@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.persistence.database.crypto.entity;
+package com.crypto.infrastructure.persistence.database.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -17,10 +17,6 @@ public class RateEntity {
     public RateEntity(String symbol, double price) {
         this.symbol = symbol;
         this.price = price;
-    }
-
-    public RateEntity(String symbol) {
-        this.symbol = symbol;
     }
 
     public RateEntity() {

@@ -1,31 +1,36 @@
 package com.crypto.domain.crypto.service;
 
-import com.crypto.domain.crypto.model.Rate;
-import com.crypto.domain.crypto.model.RateDto;
+import com.crypto.infrastructure.application.rest.dto.RateDto;
 import com.crypto.domain.crypto.port.outbound.CryptoRepositoryPort;
+import com.crypto.domain.crypto.port.outbound.RateRepositoryPort;
 import com.crypto.web.client.BianceClient;
 
 import java.util.List;
 
-import static com.crypto.domain.crypto.model.Mapper.mapper;
+import static com.crypto.domain.crypto.model.Mapper.*;
 
 public class RateService {
 
     private final BianceClient bianceClient;
     private final CryptoRepositoryPort cryptoRepositoryPort;
+    private final RateRepositoryPort rateRepositoryPort;
 
-    public RateService(CryptoRepositoryPort cryptoRepositoryPort, BianceClient bianceClient) {
+    public RateService(RateRepositoryPort rateRepositoryPort, BianceClient bianceClient, CryptoRepositoryPort cryptoRepositoryPort) {
         this.bianceClient = bianceClient;
+        this.rateRepositoryPort = rateRepositoryPort;
         this.cryptoRepositoryPort = cryptoRepositoryPort;
     }
 
-    public List<RateDto> getCurrencies() {
-        return mapper(cryptoRepositoryPort.findAll().stream()
-                .map(crypto -> bianceClient.getCurrencyBySymbol(crypto.getSymbol()))
+    public List<RateDto> getRates() {
+        final var currencies = mapper(cryptoRepositoryPort.findAll().stream()
+                .map(crypto -> bianceClient.getCurrencyBySymbol(crypto.symbol()))
                 .toList());
+        saveRates(currencies);
+        return rateDtoListMapper(rateRepositoryPort.findAll());
     }
 
-    public Rate addCrypto(Rate crypto) {
-        return cryptoRepositoryPort.save(crypto);
+    public List<RateDto> saveRates(List<RateDto> rateDtoList) {
+        rateDtoList.forEach(rate -> rateRepositoryPort.save(rateMapper(rate)));
+        return rateDtoList;
     }
 }

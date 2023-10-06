@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.client.RestTemplate;
 
 public class BianceClient {
+
+    //Adnotacja @Value nie działa, nie wstrzykuje url = https://api.binance.com
     @Value("${api_host}")
     private String apiHost;
     private final RestTemplate restTemplate = new RestTemplate();

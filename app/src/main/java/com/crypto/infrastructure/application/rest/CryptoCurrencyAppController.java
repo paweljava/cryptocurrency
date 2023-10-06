@@ -1,7 +1,9 @@
 package com.crypto.infrastructure.application.rest;
 
-import com.crypto.domain.crypto.model.RateDto;
+import com.crypto.infrastructure.application.rest.dto.CryptoDto;
+import com.crypto.infrastructure.application.rest.dto.RateDto;
 import com.crypto.domain.crypto.port.inbound.CryptoServicePort;
+import com.crypto.domain.crypto.port.inbound.RateServicePort;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,24 +14,25 @@ import java.util.List;
 import static com.crypto.domain.crypto.model.Mapper.map;
 
 @RestController
-class CryptoController {
+class CryptoCurrencyAppController {
 
 
+    private final RateServicePort rateServicePort;
     private final CryptoServicePort cryptoServicePort;
 
-    CryptoController(CryptoServicePort cryptoServicePort) {
+    CryptoCurrencyAppController(RateServicePort rateServicePort, CryptoServicePort cryptoServicePort) {
+        this.rateServicePort = rateServicePort;
         this.cryptoServicePort = cryptoServicePort;
     }
 
     @GetMapping("/api")
-    List<RateDto> getCurrency() {
-        final var response = cryptoServicePort.getCrypto();
-        return response;
+    List<RateDto> getRates() {
+        return rateServicePort.getRates();
     }
 
     @PostMapping("/api")
-    RateDto addCrypto(@RequestParam RateDto symbol) {
-        cryptoServicePort.addCrypto(map(symbol));
+    CryptoDto addCryptoSymbol(@RequestParam CryptoDto symbol) {
+        cryptoServicePort.addCryptoSymbol(map(symbol));
         return symbol;
     }
 }
