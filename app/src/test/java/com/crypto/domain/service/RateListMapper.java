@@ -1,7 +1,7 @@
 package com.crypto.domain.service;
 
 import com.crypto.domain.model.Rate;
-import com.crypto.infrastructure.rest.dto.RateDto;
+import com.crypto.infrastructure.adapters.inbound.dto.RateDto;
 
 import java.util.List;
 

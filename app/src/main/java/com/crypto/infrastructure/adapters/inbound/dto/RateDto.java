@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.rest.dto;
+package com.crypto.infrastructure.adapters.inbound.dto;
 
 import org.springframework.lang.NonNull;
 

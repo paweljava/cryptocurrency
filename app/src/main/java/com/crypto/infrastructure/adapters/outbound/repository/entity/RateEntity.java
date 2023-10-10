@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.persistence.database.entity;
+package com.crypto.infrastructure.adapters.outbound.repository.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.externalapi;
+package com.crypto.infrastructure.adapters.outbound.http;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

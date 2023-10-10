@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.externalapi;
+package com.crypto.infrastructure.adapters.outbound.http;
 
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
@@ -7,14 +7,17 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.URI;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class BinanceWebSocketClient {
 
     private final static String API_HOST = "wss://stream.binance.com:9443/ws/btcusdt@trade";
-    private BinanceApiDto response;
+    private final Map<String, BinanceApiDto> response = new HashMap<>();
 
-    public BinanceApiDto connectToServer(List<String> currencyPairs) {
+    public Map<String, BinanceApiDto> connectToServer(Set<String> currencyPairs) {
         try {
             final var uri = new URI(API_HOST);
             final var client = new WebSocketClient(uri, new Draft_6455()) {
@@ -41,8 +44,8 @@ public class BinanceWebSocketClient {
 
                         if (jsonObject.has("s") && jsonObject.has("p")) {
                             var symbol = jsonObject.getString("s");
-                            var cena = jsonObject.getDouble("p");
-                            response = new BinanceApiDto(symbol, cena);
+                            var price = jsonObject.getDouble("p");
+                            response.put(symbol, new BinanceApiDto(symbol, price));
 
                         } else {
                             System.err.println("Invalid message format: " + message);

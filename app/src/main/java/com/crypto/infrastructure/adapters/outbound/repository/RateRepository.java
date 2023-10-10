@@ -1,6 +1,6 @@
-package com.crypto.infrastructure.persistence.database.repository;
+package com.crypto.infrastructure.adapters.outbound.repository;
 
-import com.crypto.infrastructure.persistence.database.entity.RateEntity;
+import com.crypto.infrastructure.adapters.outbound.repository.entity.RateEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.lang.NonNull;
 

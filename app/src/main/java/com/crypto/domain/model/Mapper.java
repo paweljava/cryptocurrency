@@ -1,8 +1,8 @@
 package com.crypto.domain.model;
 
-import com.crypto.infrastructure.rest.dto.CryptoDto;
-import com.crypto.infrastructure.rest.dto.RateDto;
-import com.crypto.infrastructure.externalapi.BinanceApiDto;
+import com.crypto.infrastructure.adapters.inbound.dto.CryptoDto;
+import com.crypto.infrastructure.adapters.inbound.dto.RateDto;
+import com.crypto.infrastructure.adapters.outbound.http.BinanceApiDto;
 
 import java.util.List;
 

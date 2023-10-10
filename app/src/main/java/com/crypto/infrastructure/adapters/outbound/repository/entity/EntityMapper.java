@@ -1,4 +1,4 @@
-package com.crypto.infrastructure.persistence.database.entity;
+package com.crypto.infrastructure.adapters.outbound.repository.entity;
 
 import com.crypto.domain.model.Crypto;
 import com.crypto.domain.model.Rate;

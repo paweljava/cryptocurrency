@@ -1,69 +1,47 @@
 package com.crypto.domain.service;
 
-import com.crypto.domain.port.outbound.CryptoRepositoryPort;
-import com.crypto.domain.port.outbound.RateRepositoryPort;
-import com.crypto.domain.model.Mapper;
-import com.crypto.infrastructure.rest.dto.RateDto;
-import com.crypto.infrastructure.externalapi.BinanceApiDto;
-import com.crypto.infrastructure.externalapi.BinanceWebSocketClient;
+import com.crypto.domain.model.Rate;
+import com.crypto.infrastructure.adapters.inbound.dto.RateDto;
+import com.crypto.infrastructure.adapters.outbound.http.BinanceWebSocketClient;
+import com.crypto.infrastructure.adapters.outbound.repository.CryptoRepository;
+import com.crypto.infrastructure.adapters.outbound.repository.RateRepository;
+import com.crypto.infrastructure.adapters.outbound.repository.entity.EntityMapper;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import static com.crypto.domain.model.Mapper.mapper;
 import static com.crypto.domain.model.Mapper.rateDtoListMapper;
+import static com.crypto.infrastructure.adapters.outbound.repository.entity.EntityMapper.rateEntityToRateMapper;
+import static com.crypto.infrastructure.adapters.outbound.repository.entity.EntityMapper.rateToRateEntityMapper;
+import static java.util.stream.Collectors.toSet;
 
 public class RateService {
 
-    private final CryptoRepositoryPort cryptoRepositoryPort;
-    private final RateRepositoryPort rateRepositoryPort;
     private final BinanceWebSocketClient binanceWebSocketClient;
+    private final RateRepository rateRepository;
+    private final CryptoRepository cryptoRepository;
 
-    public RateService(RateRepositoryPort rateRepositoryPort, BinanceWebSocketClient binanceWebSocketClient, CryptoRepositoryPort cryptoRepositoryPort) {
+    public RateService(BinanceWebSocketClient binanceWebSocketClient,
+                       RateRepository rateRepository,
+                       CryptoRepository cryptoRepository) {
         this.binanceWebSocketClient = binanceWebSocketClient;
-        this.rateRepositoryPort = rateRepositoryPort;
-        this.cryptoRepositoryPort = cryptoRepositoryPort;
+        this.rateRepository = rateRepository;
+        this.cryptoRepository = cryptoRepository;
     }
 
-    public List<RateDto> getRates(){
-        final var currencyList = cryptoRepositoryPort.findAll().stream()
+    public List<RateDto> getRates() {
+        final var currencies = cryptoRepository.findAll().stream()
+                .map(EntityMapper::cryptoToCryptoEntityMapper)
                 .map(a -> a.symbol().toLowerCase() + "@trade")
-                .toList();
+                .collect(toSet());
 
-        final var rate = binanceWebSocketClient.connectToServer(currencyList);
-        List<BinanceApiDto> list = new ArrayList<>();
-
-        for (var crypto : cryptoRepositoryPort.findAll()) {
-            if (rate == null) {
-                return mapper(list);
-            } else if (Objects.equals(crypto.symbol(), rate.getSymbol())) {
-                list.add(rate);
-            }
-        }
-
-        //list.add(rate);
-        saveRates(mapper(list));
-
-        return rateDtoListMapper(rateRepositoryPort.findAll());
-        /*final var currencies = mapper(cryptoRepositoryPort.findAll().stream()
-                .map(crypto -> bianceClient.getCurrencyBySymbol(crypto.symbol()))
-                .toList());
-        saveRates(currencies);
-        return rateDtoListMapper(rateRepositoryPort.findAll());*/
+        final var binanceResponse = binanceWebSocketClient.connectToServer(currencies);
+        final var results = binanceResponse.values().stream()
+                .map(dto -> new Rate(dto.getSymbol(), dto.getPrice())).toList();
+        return rateDtoListMapper(results);
     }
-
-    /*public List<RateDto> getRates() {
-        binanceWebSocketClient.connectToServer();
-        final var currencies = mapper(cryptoRepositoryPort.findAll().stream()
-                .map(crypto -> bianceClient.getCurrencyBySymbol(crypto.symbol()))
-                .toList());
-        saveRates(currencies);
-        return rateDtoListMapper(rateRepositoryPort.findAll());
-    }*/
 
     public List<RateDto> saveRates(List<RateDto> rateDtoList) {
-        rateDtoList.forEach(rate -> rateRepositoryPort.save(Mapper.rateMapper(rate)));
+        rateDtoList.forEach(rate -> rateToRateEntityMapper(rateRepository.save(rateEntityToRateMapper(new Rate(rate.symbol(), rate.price())))));
         return rateDtoList;
     }
 }

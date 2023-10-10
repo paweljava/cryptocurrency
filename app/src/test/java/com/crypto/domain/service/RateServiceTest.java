@@ -1,10 +1,10 @@
 package com.crypto.domain.service;
 
 import com.crypto.domain.model.Rate;
-import com.crypto.domain.port.outbound.CryptoRepositoryPort;
-import com.crypto.domain.port.outbound.RateRepositoryPort;
-import com.crypto.infrastructure.externalapi.BinanceWebSocketClient;
-import com.crypto.infrastructure.rest.dto.RateDto;
+import com.crypto.infrastructure.adapters.inbound.dto.RateDto;
+import com.crypto.infrastructure.adapters.outbound.http.BinanceWebSocketClient;
+import com.crypto.infrastructure.adapters.outbound.repository.CryptoRepository;
+import com.crypto.infrastructure.adapters.outbound.repository.RateRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -14,24 +14,20 @@ import java.util.List;
 import static com.crypto.domain.service.RateListMapper.rateListMapper;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class RateServiceTestMock {
+class RateServiceTest {
 
     private final BinanceWebSocketClient binanceWebSocketClient = mock(BinanceWebSocketClient.class);
-    private final RateRepositoryPort rateRepositoryPort = mock(RateRepositoryPort.class);
-    private final CryptoRepositoryPort cryptoRepositoryPort = mock(CryptoRepositoryPort.class);
-    private final RateService rateService = new RateService(rateRepositoryPort, binanceWebSocketClient, cryptoRepositoryPort);
+    private final RateRepository rateRepository = mock(RateRepository.class);
+    private final CryptoRepository cryptoRepository = mock(CryptoRepository.class);
+    private final RateService rateService = new RateService(binanceWebSocketClient, rateRepository, cryptoRepository);
 
     @Test
     void should_save_rates() {
         // given
         final var symbol = new Rate("TUSDUSDT", 9.456);
-        when(rateRepositoryPort.save(any())).thenReturn(symbol);
-        when(rateRepositoryPort.findAll()).thenReturn(List.of(symbol));
 
         // when
         final var result = rateService.getRates();
@@ -54,7 +50,6 @@ class RateServiceTestMock {
         final var xrpusdt = new RateDto("XRPUSDT", 13.255);
         final var eurusdt = new RateDto("EURUSDT", 14.255);
         final List<Rate> rates = rateListMapper(List.of(btcusdt, bnbusdt, ethusdt, xrpusdt, eurusdt));
-        when(rateRepositoryPort.findAll()).thenReturn(rates);
 
         // when
         final var result = rateService.getRates();
