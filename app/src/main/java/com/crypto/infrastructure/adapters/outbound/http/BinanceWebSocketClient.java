@@ -17,6 +17,15 @@ import java.util.Set;
 // 2. Binance client listening starts(define initial list)
 // 3. When POST is called, ready rate is waiting for the customer(pre-processing)
 //
+
+
+/*
+ ETH, BTC
+
+ POST /symbols/SOL
+
+ ETH, BTC, SOL
+ */
 public class BinanceWebSocketClient {
 
     private final static String API_HOST = "wss://stream.binance.com:9443/ws/btcusdt@trade";
