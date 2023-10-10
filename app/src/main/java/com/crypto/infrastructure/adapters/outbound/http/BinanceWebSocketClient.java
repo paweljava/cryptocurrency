@@ -8,10 +8,15 @@ import org.json.JSONObject;
 
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+// TODO find a way to run rates fetching before asking for rates
+//
+// 1. App run
+// 2. Binance client listening starts
+// 3. When POST is called, ready rate is waiting for the customer(pre-processing)
+//
 public class BinanceWebSocketClient {
 
     private final static String API_HOST = "wss://stream.binance.com:9443/ws/btcusdt@trade";
