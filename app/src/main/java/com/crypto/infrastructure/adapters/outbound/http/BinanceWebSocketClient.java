@@ -14,7 +14,7 @@ import java.util.Set;
 // TODO find a way to run rates fetching before asking for rates
 //
 // 1. App run
-// 2. Binance client listening starts
+// 2. Binance client listening starts(define initial list)
 // 3. When POST is called, ready rate is waiting for the customer(pre-processing)
 //
 public class BinanceWebSocketClient {
