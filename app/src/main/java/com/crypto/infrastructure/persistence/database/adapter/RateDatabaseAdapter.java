@@ -1,7 +1,7 @@
 package com.crypto.infrastructure.persistence.database.adapter;
 
-import com.crypto.domain.crypto.model.Rate;
-import com.crypto.domain.crypto.port.outbound.RateRepositoryPort;
+import com.crypto.domain.model.Rate;
+import com.crypto.domain.port.outbound.RateRepositoryPort;
 import com.crypto.infrastructure.persistence.database.repository.RateRepository;
 
 import java.util.List;

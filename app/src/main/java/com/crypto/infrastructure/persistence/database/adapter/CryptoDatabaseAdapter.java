@@ -1,7 +1,7 @@
 package com.crypto.infrastructure.persistence.database.adapter;
 
-import com.crypto.domain.crypto.port.outbound.CryptoRepositoryPort;
-import com.crypto.domain.crypto.model.Crypto;
+import com.crypto.domain.port.outbound.CryptoRepositoryPort;
+import com.crypto.domain.model.Crypto;
 import com.crypto.infrastructure.persistence.database.repository.CryptoRepository;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.crypto.infrastructure.persistence.database.entity;
 
-import com.crypto.domain.crypto.model.Crypto;
-import com.crypto.domain.crypto.model.Rate;
+import com.crypto.domain.model.Crypto;
+import com.crypto.domain.model.Rate;
 
 import java.util.List;
 
