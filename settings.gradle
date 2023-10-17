@@ -1,4 +1,3 @@
 rootProject.name = 'cryptocurrency'
-include 'web-client'
 include 'app'
 
