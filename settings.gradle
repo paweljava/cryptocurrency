@@ -1,3 +1,4 @@
 rootProject.name = 'cryptocurrency'
 include 'app'
+include 'app'
 

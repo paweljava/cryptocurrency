@@ -1,6 +1,0 @@
-CREATE TABLE IF NOT EXISTS rates
-(
-    symbol VARCHAR(20) NOT NULL,
-    price DOUBLE PRECISION,
-    PRIMARY KEY (symbol)
-);
