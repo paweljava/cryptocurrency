@@ -1,0 +1,6 @@
+configuration:
+  akhq:
+    connections:
+      conn:
+        properties:
+          bootstrap-server: "127.0.0.1:9092"
