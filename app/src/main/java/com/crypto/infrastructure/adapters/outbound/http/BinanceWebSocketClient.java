@@ -7,6 +7,8 @@ import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -14,36 +16,28 @@ import org.springframework.stereotype.Component;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 import static java.util.stream.Collectors.toSet;
 
-// TODO find a way to run rates fetching before asking for rates
-//
-// 1. App run
-// 2. Binance client listening starts(define initial list)
-// 3. When POST is called, ready rate is waiting for the customer(pre-processing)
-//
-
-
-/*
- ETH, BTC
-
- POST /symbols/SOL
-
- ETH, BTC, SOL
- */
 @Component
-public class BinanceWebSocketClient {
-//    public class BinanceWebSocketClient implements CommandLineRunner {
+public class BinanceWebSocketClient implements CommandLineRunner {
+
     @Value("${api_host}")
     private String apiHost;
+
+    private final Logger log = LoggerFactory.getLogger(BinanceWebSocketClient.class);
+
 
     private final Map<String, BinanceApiDto> response = new HashMap<>();
     private final CryptoRepository cryptoRepository;
 
     public BinanceWebSocketClient(CryptoRepository cryptoRepository) {
         this.cryptoRepository = cryptoRepository;
+    }
+
+    @Override
+    public void run(String... args) {
+        connectToServer();
     }
 
     public void connectToServer() {
@@ -58,6 +52,7 @@ public class BinanceWebSocketClient {
                 @Override
                 public void onOpen(ServerHandshake serverHandshake) {
                     System.out.println("Connected to Binance WebSocket");
+                    log.info("Connected to Binance WebSocket");
 
                     final var subscribeMessageJson = new JSONObject();
                     subscribeMessageJson.putOpt("method", "SUBSCRIBE");
@@ -66,6 +61,9 @@ public class BinanceWebSocketClient {
 
                     final var subscribeMessage = subscribeMessageJson.toString();
                     send(subscribeMessage);
+
+                    log.debug("Outgoing WebSocket message: {}", subscribeMessage);
+                    System.out.println("Zapytanie:  " + log.getName());
                 }
 
                 @Override
@@ -102,15 +100,6 @@ public class BinanceWebSocketClient {
             e.printStackTrace();
         }
     }
-
-//    @Override
-//    public void run(String... args) {
-//        final Set<String> currencyPairs = cryptoRepository.findAll().stream()
-//                .map(EntityMapper::cryptoToCryptoEntityMapper)
-//                .map(a -> a.symbol().toLowerCase() + "@trade")
-//                .collect(toSet());
-//        connectToServer();
-//    }
 
     public Map<String, BinanceApiDto> getCurrencyRates() {
         return response;

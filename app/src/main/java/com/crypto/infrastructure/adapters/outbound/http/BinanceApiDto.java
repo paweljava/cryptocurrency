@@ -14,14 +14,14 @@ public class BinanceApiDto {
         this.price = price;
     }
 
-    BinanceApiDto() {
+    public BinanceApiDto() {
     }
 
     public String getSymbol() {
-        return symbol;
+        return this.symbol;
     }
 
     public double getPrice() {
-        return price;
+        return this.price;
     }
 }

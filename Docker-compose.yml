@@ -1,0 +1,27 @@
+version: '4'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    build: .
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1
+      KAFKA_CREATE_TOPICS: "kafka-topic"
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - ".:/var/docker"
+      - "./var/docker:/var/docker"
+  #akhq:
+  #  image: tchiotludo/akhq-jvm:dev
+  #  environment:
+  #    JVM_OPTS_FILE: /app/jvm.options
+  #  ports:
+  #    - "8080:8080"
+  #  volumes:
+  #    - /docker/application.yml:/app/application.yml
+  #  depends_on:
+  #    - kafka
